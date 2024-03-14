@@ -50,7 +50,7 @@ public class Seed
             .RuleFor(h => h.BeginDate, f => f.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now))
             .RuleFor(h => h.EndDate, f => f.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now))
             .RuleFor(h => h.Target, f => f.Lorem.Word())
-            .RuleFor(h => h.DepartamentId, t => t.Random.Number(10, 12))
+            .RuleFor(h => h.DepartamentId, t => t.Random.Number(1, 3))
             .RuleFor(h => h.Condition, f => f.Lorem.Word());
         return faker.Generate(100);
     }
