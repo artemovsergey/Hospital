@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\asv\.nuget\packages\blazor.qrcodegen\1.1.3\contentFiles\any\net8.0\Blazor.qrcode.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazor.QrCodeGen" Version="1.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Hospital.Data\Hospital.Data.csproj" />
     <ProjectReference Include="..\Hospital.Service\Hospital.Service.csproj" />
   </ItemGroup>

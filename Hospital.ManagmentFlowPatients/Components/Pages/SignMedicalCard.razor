@@ -1,0 +1,50 @@
+﻿@page "/signm"
+@rendermode RenderMode.InteractiveServer
+
+@inject PatientRepository repo
+@inject MedicalCardRepository mrepo
+
+@inject NavigationManager manager
+
+<PageTitle>Создание карты для пацинета</PageTitle>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <EditForm Model="@p" OnSubmit="@Submit">
+                <label>Пациент </label>
+                <input type="text" @bind="p.PassportSerial" class="m-2 p-2 form-control" placeholder="Серия паспорта" />
+                <input type="text" @bind="p.PassportNumber" class="m-2 p-2 form-control" placeholder="Номер паспорта" />
+                <input type="submit" class="m-2 p-2 btn btn-primary" value="Завести карту" />
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    Patient p = new Patient();
+
+
+    void Submit(){
+
+        var patient = repo.FindByPassport(p.PassportSerial, p.PassportNumber);
+        if(patient != null)
+        {
+            var m = new MedicalCard()
+                {
+                    BeginDate = DateTime.Now,
+                    Number = Guid.NewGuid().ToString(),
+                    PatientId = patient.Id,
+
+                };
+
+            mrepo.CreateMedicalCard(m);
+        }
+        else
+        {
+            manager.NavigateTo("sign");   
+        }
+
+    }
+}

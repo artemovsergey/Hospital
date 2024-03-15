@@ -1,0 +1,36 @@
+﻿@page "/p/{id}"
+
+@rendermode InteractiveServer
+
+
+
+<PageTitle> Профиль пациента </PageTitle>
+<h3>Профиль пациента </h3>
+
+
+
+<img src="@QrCodeService.GenerateQRCode(Id)"/>
+
+
+@if (isReady)
+{
+    <Blazor.QrCodeGen.QrCode Text="@Id" />
+}
+
+<!-- информация об объекте пациента -->
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    Patient p = new();
+    bool isReady = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isReady = true;
+            StateHasChanged(); // Обновление состояния компонента для перерисовки
+        }
+    }
+}
