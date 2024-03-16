@@ -11,6 +11,8 @@ builder.Services.AddScoped<HospitalContext>();
 
 builder.Services.AddScoped<PatientRepository>();
 builder.Services.AddScoped<MedicalCardRepository>();
+builder.Services.AddScoped<HospitalizationRepository>();
+builder.Services.AddScoped<DepartamentRepository>();
 
 builder.Services.AddTransient<Blazor.QrCodeGen.ModuleCreator>();
 

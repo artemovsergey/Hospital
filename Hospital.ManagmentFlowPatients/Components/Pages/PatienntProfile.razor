@@ -1,36 +1,68 @@
-﻿@page "/p/{id}"
-
+﻿@page "/p/{id:int}"
 @rendermode InteractiveServer
 
-
+@inject PatientRepository repo
 
 <PageTitle> Профиль пациента </PageTitle>
+
 <h3>Профиль пациента </h3>
 
-
-
-<img src="@QrCodeService.GenerateQRCode(Id)"/>
-
-
-@if (isReady)
+@if(p == null)
 {
-    <Blazor.QrCodeGen.QrCode Text="@Id" />
+    <h3> Загрузка ...</h3>
+}
+else
+{
+  <div class="containter">
+      <div class="row">
+            <div class="m-1 p-1 col-md-4">
+
+                @if (p.Photo != null)
+                {
+                    var imageBase64 = Convert.ToBase64String(p.Photo);
+                    var imageSrc = $"data:image/jpeg;base64,{imageBase64}";
+                    <img src="@imageSrc" alt="Фото пациента" style="width: 200px; height: 200px;" />
+                }
+                else
+                {
+                    <img src="/images/f1.png" alt="Фото пациента" style="width: 100px; height: auto;" />
+                }
+                
+            </div>
+            <div class="m-1 p-1 col-md-4">
+
+                <h3>@p.Surname</h3>
+                <h3>@p.Name</h3>
+                <h3>@p.Patronymic</h3>
+
+            </div>
+
+            <div class="m-1 p-1 col-md-4">
+                <img src="@QrCodeService.GenerateQRCode(Id.ToString())" />
+            </div>
+      </div>
+  </div>
+   
+           
+  
+
+
+
 }
 
-<!-- информация об объекте пациента -->
+
+
+
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public int Id { get; set; }
 
-    Patient p = new();
-    bool isReady = false;
+    Patient p = new Patient();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnInitialized()
     {
-        if (firstRender)
-        {
-            isReady = true;
-            StateHasChanged(); // Обновление состояния компонента для перерисовки
-        }
+        p = repo.FindById(Id);
     }
+
+
 }

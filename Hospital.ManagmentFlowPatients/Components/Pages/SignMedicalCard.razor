@@ -1,4 +1,5 @@
 ﻿@page "/signm"
+@using Hospital.Data.Models
 @rendermode RenderMode.InteractiveServer
 
 @inject PatientRepository repo
@@ -26,25 +27,43 @@
     Patient p = new Patient();
 
 
-    void Submit(){
+    async Task Submit(){
 
-        var patient = repo.FindByPassport(p.PassportSerial, p.PassportNumber);
-        if(patient != null)
+        HttpClient httpClient = new();
+
+        var response = await httpClient.GetAsync($"http://192.168.1.3:7029/api/Patients/FindByPassport?serial={p.PassportSerial}&number={p.PassportNumber}");
+        //response.EnsureSuccessStatusCode();
+        if (response.IsSuccessStatusCode)
         {
-            var m = new MedicalCard()
-                {
-                    BeginDate = DateTime.Now,
-                    Number = Guid.NewGuid().ToString(),
-                    PatientId = patient.Id,
+            var patient = await response.Content.ReadFromJsonAsync<Patient>();
+            if (patient != null)
+            {
+                var m = new MedicalCard()
+                    {
+                        BeginDate = DateTime.Now,
+                        Number = Guid.NewGuid().ToString(),
+                        PatientId = patient.Id,
 
-                };
+                    };
 
-            mrepo.CreateMedicalCard(m);
+                var responseCard = await httpClient.PostAsJsonAsync("http://192.168.1.3:7029/api/MedicalCards", m);
+                Console.WriteLine($"Статус: {responseCard.IsSuccessStatusCode}");
+
+            }
+            else
+            {
+                manager.NavigateTo("sign");
+            }
         }
         else
         {
-            manager.NavigateTo("sign");   
+            Console.WriteLine("Статус код не прошел!");
+            return;
         }
+
+        
+        
+      
 
     }
 }

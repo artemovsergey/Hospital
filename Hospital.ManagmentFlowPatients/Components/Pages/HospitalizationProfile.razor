@@ -1,0 +1,46 @@
+﻿@page "/h/{id:int}"
+@using Hospital.Data.Models
+@using Hospital.Service.Repositories
+@rendermode InteractiveServer
+@inject HospitalizationRepository repo
+
+<PageTitle>Просмотр госпитализации</PageTitle>
+<h3>Просмотр госпитализации</h3>
+
+<h3> Фамилия: @h.Patient.Name</h3>
+<h3> Код: @h.Code</h3>
+<h3> Дата: @h.BeginDate</h3>
+<h3> Статус: @h.Status </h3>
+
+<textarea @bind="@h.Status" required></textarea>
+
+<button class="btn btn-primary" @onclick="Submit">Отменить</button>
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    Hospitalization h = new ();
+
+    protected override void OnInitialized()
+    {
+        h = repo.FindById(Id);
+    }
+
+    public void Submit()
+    {
+        if (string.IsNullOrEmpty(h.Status)){
+            Console.WriteLine($"Нужна причина отказа!");
+        }
+        else
+        {
+            h.Status = $"Причина:{h.Status}";
+            repo.EditHospitalization(h);
+            Console.WriteLine($"Отмена госпитализации: {h.Status}");
+        }
+
+    }
+
+}

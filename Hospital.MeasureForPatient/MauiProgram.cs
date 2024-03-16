@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Hospital.Data;
+using Hospital.Service.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Hospital.MeasureForPatient
 {
@@ -15,9 +17,12 @@ namespace Hospital.MeasureForPatient
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddTransient<HospitalContext>();
+            builder.Services.AddTransient<DoctorRepository>();
+            builder.Services.AddTransient<PatientRepository>();
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
 

@@ -1,0 +1,83 @@
+﻿@page "/signh"
+@using Hospital.Data.Models
+<PageTitle>Запись на госпитализация</PageTitle>
+
+@rendermode InteractiveServer
+
+@inject PatientRepository repoPatient
+@inject DepartamentRepository repoDepartament
+@inject HospitalizationRepository repoHospitalization
+
+<h3> Госпитализация </h3>
+
+<div class="containter">
+    <div class="row">
+
+        <div class="m-2 p-2 col-md-12">
+            <EditForm Model="@h" class="form-control" OnSubmit="Submit">
+
+                <InputSelect @bind-Value="@h.PatientId" multiple>
+                    @foreach (var p in patients)
+                    {
+                        <option value = "@p.Id">@p.Surname @p.Name @p.Patronymic</option>
+                    }
+                </InputSelect>
+
+                <InputSelect @bind-Value="@h.DepartamentId" multiple>
+                    @foreach (var d in departaments)
+                    {
+                        <option value="@d.Id">@d.Name</option>
+                    }
+                </InputSelect>
+
+                    
+                <input type="text" class="input-group" @bind="@h.Code" placeholder="Код на госпитализацию" required />
+                
+                <label>Дата начала госпитализации: </label>
+                <input type="date" class="input-group" @bind-value="@h.BeginDate" placeholder="Дата госпитализации" />
+                
+                <label>Дата окончания госпитализации; </label>
+                <input type="date" class="input-group" @bind-value="@h.EndDate" placeholder="Время госпитализации" />
+                
+                <input type="text" class="input-group" @bind-value="@h.Target" placeholder="Цель" />
+
+                <select @bind="@h.Condition" >
+                    <option value="бюджет">бюджет</option>
+                    <option value="платно">платно</option>
+                </select>
+
+                <input class="btn btn-primary" type="submit" value="Записать" />
+            </EditForm>
+        </div>
+
+    </div>
+</div>
+
+@code {
+
+    Hospitalization h = new();
+    IEnumerable<Patient> patients = new List<Patient>();
+    IEnumerable<Departament> departaments = new List<Departament>();
+
+
+    public async Task Submit()
+    {
+        HttpClient httpClient = new();
+        var response = await httpClient.PostAsJsonAsync("http://192.168.1.3:7029/api/Hospitalizations", h);
+        Console.WriteLine($"Статус: {response.IsSuccessStatusCode}");
+      
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpClient httpClient = new();
+        var response = await httpClient.GetAsync("http://192.168.1.3:7029/api/Patients");
+        response.EnsureSuccessStatusCode();
+        patients = await response.Content.ReadFromJsonAsync<List<Patient>>();
+
+        var responseDepartament = await httpClient.GetAsync("http://192.168.1.3:7029/api/Departaments");
+        responseDepartament.EnsureSuccessStatusCode();
+        departaments = await responseDepartament.Content.ReadFromJsonAsync<List<Departament>>();
+    }
+
+}

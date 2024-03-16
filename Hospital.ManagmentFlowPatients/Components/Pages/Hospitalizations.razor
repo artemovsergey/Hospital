@@ -1,6 +1,66 @@
 ﻿@page "/h"
-<PageTitle>Госпитализация</PageTitle>
+
+@rendermode InteractiveServer
+@inject HospitalizationRepository repo
+@inject NavigationManager nav
+
+<PageTitle>Госпитализации</PageTitle>
+
+<h3> Просмотр госпитализаций</h3>
+
+<div class="m-2 p-2 container-fluid">
+    <input type="text" class="m-2 p-2 input-group" @bind="@h.Code" placeholder="Код госпитализации"/>
+    <button class="m-2 p-2 btn btn-primary" @onclick="Submit">Найти</button>
+</div>
+
+
+<div class="containter">
+    <div class="row">
+
+        <div class="m-2 p-2 col-md-4">
+           <table class="table">
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in hospitalizations)
+            {
+                <tr>
+                    <td> <a class="btn btn-primary" href="/h/@h.Id">@h.Patient.Surname</a>  </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+        </div
+    </div>
+</div>
+
 
 @code {
+
+    IEnumerable<Hospitalization> hospitalizations = new List<Hospitalization>();
+    Hospitalization h = new();
+
+    public void Submit()
+    {
+
+        var result = repo.FindByCode(h.Code);
+        if(result != null)
+        {
+            nav.NavigateTo($"h/{result.Id}");
+        }
+        else
+        {
+           Console.WriteLine("По коду нет данных о госпитализации!");  
+        }
+       
+    }
+
+    protected override void OnInitialized()
+    {
+        hospitalizations = repo.GetHospitalizations();
+    }
 
 }

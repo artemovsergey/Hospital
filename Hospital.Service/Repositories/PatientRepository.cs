@@ -30,6 +30,11 @@ public class PatientRepository : IPatientRepository
         }
     }
 
+    public Patient FindById(int id)
+    {
+        return this.db.Patients.Find(id);
+    }
+
     public Patient FindByPassport(string serial, string number)
     {
         return this.db.Patients.Where(p => p.PassportNumber == number && p.PassportSerial == serial).FirstOrDefault();

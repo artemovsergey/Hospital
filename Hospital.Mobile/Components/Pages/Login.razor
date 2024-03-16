@@ -1,0 +1,32 @@
+﻿@page "/"
+@page "/login"
+@using Hospital.Data.Models
+
+@inject IJSRuntime JsRuntime
+@inject NavigationManager manager
+
+<h1>Авторизация врача</h1>
+<EditForm Model="@doctor" OnSubmit="Submit">
+    <input type="text" @bind ="@doctor.Login" placeholder="Login" />
+    <input type="text" @bind="@doctor.Password" placeholder="Password" />
+    <input type="submit" class="btn btn-primary" value="Войти"/>
+</EditForm>
+
+@code{
+    Doctor doctor = new ();
+
+    public async Task Submit(){
+
+        manager.NavigateTo("/p");
+
+        // var result = repo.FindByName(doctor.Login, doctor.Password);
+        // if(result != null)
+        // {
+        //     manager.NavigateTo("/p");
+        // }
+        // else
+        // {
+        //     JsRuntime.InvokeVoidAsync("Ошибка авторизации", $"Неверный логин или пароль");
+        // }
+    }
+}

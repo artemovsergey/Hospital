@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.MeasureForPatient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Console", "Hospital.Console\Hospital.Console.csproj", "{360FE1E8-FD6E-40FF-94DA-A1B282E4CCC6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Api", "Hospital.Api\Hospital.Api.csproj", "{890269D9-9512-4939-BB94-FE03817D5F9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Mobile", "Hospital.Mobile\Hospital.Mobile.csproj", "{5E523D13-DA0C-468E-B905-1062B4198C40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,16 @@ Global
 		{360FE1E8-FD6E-40FF-94DA-A1B282E4CCC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{360FE1E8-FD6E-40FF-94DA-A1B282E4CCC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{360FE1E8-FD6E-40FF-94DA-A1B282E4CCC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890269D9-9512-4939-BB94-FE03817D5F9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890269D9-9512-4939-BB94-FE03817D5F9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890269D9-9512-4939-BB94-FE03817D5F9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890269D9-9512-4939-BB94-FE03817D5F9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E523D13-DA0C-468E-B905-1062B4198C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E523D13-DA0C-468E-B905-1062B4198C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E523D13-DA0C-468E-B905-1062B4198C40}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5E523D13-DA0C-468E-B905-1062B4198C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E523D13-DA0C-468E-B905-1062B4198C40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E523D13-DA0C-468E-B905-1062B4198C40}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

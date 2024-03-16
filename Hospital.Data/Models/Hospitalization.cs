@@ -9,7 +9,7 @@ public class Hospitalization : Base
     public DateTime EndDate { get; set; }
     public string Target { get; set; }
     public int DepartamentId { get; set; }
-    public Departament Departament { get; set; }
+    public Departament? Departament { get; set; } = null;
     public string Condition { get; set; } = "free";
     public string Status { get; set; } = "согласие";
 }
